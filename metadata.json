@@ -1,0 +1,5 @@
+{
+  "name": "Driving Feedback Classifier",
+  "description": "An interactive tool for trainees to understand different categories of driving feedback. Select a category to see the specific reasons associated with it.",
+  "requestFramePermissions": []
+}
