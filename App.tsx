@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { parseAndGroupData } from './data';
 import CategoryCard from './components/CategoryCard';
 import ReasonPill from './components/ReasonPill';
@@ -9,17 +9,45 @@ const App: React.FC = () => {
   const data: GroupedData = useMemo(() => parseAndGroupData(), []);
   const categories = useMemo(() => Object.keys(data), [data]);
 
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const getCategoryFromHash = useCallback(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const hash = window.location.hash.substring(1);
+      const decodedHash = hash ? decodeURIComponent(hash) : null;
+      // Validate that the category from the hash actually exists
+      if (decodedHash && categories.includes(decodedHash)) {
+        return decodedHash;
+      }
+      return null;
+    } catch (e) {
+      console.error("Error decoding URL hash:", e);
+      return null;
+    }
+  }, [categories]);
 
-  const reasons = selectedCategory ? data[selectedCategory] : [];
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(getCategoryFromHash);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setSelectedCategory(getCategoryFromHash());
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [getCategoryFromHash]);
+
 
   const handleSelectCategory = (category: string) => {
-    setSelectedCategory(category);
+    window.location.hash = encodeURIComponent(category);
   };
 
   const handleClearSelection = () => {
-    setSelectedCategory(null);
+    window.location.hash = '';
   };
+
+  const reasons = selectedCategory ? data[selectedCategory] : [];
 
   return (
     <div className="min-h-screen bg-slate-900 text-white font-sans p-4 sm:p-8 flex flex-col items-center">
