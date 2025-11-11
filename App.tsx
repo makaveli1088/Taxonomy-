@@ -3,7 +3,7 @@ import { parseAndGroupData } from './data';
 import CategoryCard from './components/CategoryCard';
 import ReasonPill from './components/ReasonPill';
 import { BackArrowIcon } from './components/icons';
-import type { GroupedData } from './types';
+import type { GroupedData, Reason } from './types';
 
 const App: React.FC = () => {
   const data: GroupedData = useMemo(() => parseAndGroupData(), []);
@@ -47,7 +47,7 @@ const App: React.FC = () => {
     window.location.hash = '';
   };
 
-  const reasons = selectedCategory ? data[selectedCategory] : [];
+  const reasons: Reason[] = selectedCategory ? data[selectedCategory] : [];
 
   return (
     <div className="min-h-screen bg-slate-900 text-white font-sans p-4 sm:p-8 flex flex-col items-center">
@@ -86,7 +86,7 @@ const App: React.FC = () => {
                 {reasons.length > 0 ? (
                   <div className="flex flex-wrap justify-start gap-3 sm:gap-4 animate-fade-in" style={{ animationDelay: '300ms' }}>
                     {reasons.map((reason, index) => (
-                      <ReasonPill key={`${reason}-${index}`} reason={reason} index={index} />
+                      <ReasonPill key={`${reason.name}-${index}`} reason={reason} index={index} />
                     ))}
                   </div>
                 ) : (

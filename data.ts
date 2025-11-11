@@ -1,139 +1,139 @@
-import type { GroupedData } from './types';
+import type { GroupedData, Reason } from './types';
 
-const rawCsv = `What,Why
-Failed to ACCELERATE,Empty Zebra Crossing
-Failed to ACCELERATE,Yellow Box
-Failed to ACCELERATE,Green light
-Failed to ACCELERATE,Turning
-Failed to ACCELERATE,From Give Way
-Failed to ACCELERATE,Traffic
-Failed to ACCELERATE,Narrow Road
-Failed to ACCELERATE,Keep Clear Markings
-Failed to ACCELERATE,From Stop Junction
-Failed to ACCELERATE,Roundabout
-Failed to ACCELERATE,Pedestrian or jwalker finished crossing
-Failed to ACCELERATE,Clear road
-Failed to ACCELERATE,Right on Red
-Failed to SLOW,Lead Vehicle
-Failed to SLOW,Other Static
-Failed to SLOW,Upcoming Turn
-Failed to SLOW,Zebra
-Failed to SLOW,Red Light
-Failed to SLOW,Amber Light
-Failed to SLOW,Jaywalking
-Failed to SLOW,Speed Limit
-Failed to SLOW,Speed Bump
-Failed to SLOW,Width
-Failed to SLOW,Narrow Road
-Failed to SLOW,Approaching Junction
-Failed to SLOW,Merging
-Failed to SLOW,Pedestrian at crossing
-Failed to SLOW,Roadworks
-Failed to SLOW,Cylist
-Failed to SLOW,Vehicle
-Failed to SLOW,Bus
-Failed to SLOW,Refuse Truck
-Failed to SLOW,Keep Clear
-Failed to SLOW,Stop Junction
-Failed to SLOW,Potholes
-Failed to SLOW,Giveway
-Failed to SLOW,Oncoming Vehicles
-Failed to SLOW,Non Priority Vehicles
-Failed to SLOW,Primary Stop Line
-Failed to SLOW,Other Dynamic
-Failed to SLOW,Undertaking
-Failed to remain STOPPED,Red light
-Failed to remain STOPPED,Zebra
-Failed to remain STOPPED,Stationary traffic
-Failed to remain STOPPED,Narrow Road
-Failed to remain STOPPED,Turning
-Failed to remain STOPPED,Junction
-Failed to remain STOPPED,Amber Light
-Failed to remain STOPPED,Keep Clear
-Failed to remain STOPPED,Yellow Box
-Failed to remain STOPPED,Pedestrian at Junction or informal crossing point
-Failed to remain STOPPED,Jaywalking
-Failed to remain STOPPED,Oncoming vehicle
-Failed to remain STOPPED,Giveway
-Failed to remain STOPPED,Stop
-Failed to remain STOPPED,Non priority vehicles
-Failed to remain STOPPED,Cyclist
-Failed to remain STOPPED,Primary stop line
-Failed to remain STOPPED,Rollback
-Failed to remain STOPPED,Red Arrow
-Failed to maintain SPEED,Harsh Brake
-Failed to maintain SPEED,Match traffic speed
-Failed to maintain SPEED,Green light
-Failed to maintain SPEED,Empty Zebra crossing
-Failed to maintain SPEED,Slowed too early
-Failed to maintain SPEED,Maintain speed limit
-Failed to maintain SPEED,Turning
-Failed to maintain SPEED,Exceeding speed limit
-Failed to follow ROUTE map,Failed to turn into plotted turn
-Failed to follow ROUTE map,Unplotted turn
-Failed to follow ROUTE map,Incorrect Indicator
-Failed to follow ROUTE map,Missed Left Turn
-Failed to follow ROUTE map,Missed Right Turn
-Failed to follow ROUTE map,Incorrect lane for continue ahead
-Failed to follow ROUTE map,Incorrect lane for upcoming turn
-Failed OVERTAKE,Failed to Complete Dynamic
-Failed OVERTAKE,Failed to Complete Static
-Failed OVERTAKE,Failed to initiate Dynamic
-Failed OVERTAKE,Failed to initiate Static
-Failed OVERTAKE,Incorrectly initiated Dynamic
-Failed OVERTAKE,Incorrectly initiated Static
-LATE Turn,Towards dynamic
-LATE Turn,Towards static
-LATE Turn,Towards oncoming lane
-LATE Turn,Towards ongoing lane
-LATE Turn,Towards ongoing restricted bus lane
-LATE Turn,Towards ongoing restricted cycle lane
-EARLY Turn,Towards dynamic
-EARLY Turn,Towards static
-EARLY Turn,Towards oncoming lane
-EARLY Turn,Towards ongoing lane
-EARLY Turn,Towards ongoing restricted bus lane
-EARLY Turn,Towards ongoing restricted cycle lane
+const rawCsv = `What,Why,VideoLink
+Failed to ACCELERATE,Empty Zebra Crossing,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Yellow Box,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Green light,https://console.sso.wayve.ai/run/elbe/2025-08-05--12-50-56--gen2-av-b960885c-cb53-450a-91a7-8d273fe1c4de?id=&time-unixus=1754399335613819
+Failed to ACCELERATE,Turning,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,From Give Way,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Traffic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Narrow Road,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Keep Clear Markings,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,From Stop Junction,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Roundabout,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Pedestrian or jwalker finished crossing,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Clear road,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to ACCELERATE,Right on Red,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Lead Vehicle,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Other Static,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Upcoming Turn,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Zebra,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Red Light,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Amber Light,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Jaywalking,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Speed Limit,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Speed Bump,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Width,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Narrow Road,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Approaching Junction,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Merging,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Pedestrian at crossing,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Roadworks,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Cylist,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Vehicle,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Bus,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Refuse Truck,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Keep Clear,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Stop Junction,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Potholes,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Giveway,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Oncoming Vehicles,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Non Priority Vehicles,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Primary Stop Line,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Other Dynamic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to SLOW,Undertaking,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Red light,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Zebra,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Stationary traffic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Narrow Road,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Turning,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Junction,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Amber Light,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Keep Clear,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Yellow Box,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Pedestrian at Junction or informal crossing point,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Jaywalking,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Oncoming vehicle,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Giveway,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Stop,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Non priority vehicles,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Cyclist,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Primary stop line,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Rollback,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to remain STOPPED,Red Arrow,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Harsh Brake,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Match traffic speed,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Green light,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Empty Zebra crossing,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Slowed too early,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Maintain speed limit,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Turning,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to maintain SPEED,Exceeding speed limit,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to follow ROUTE map,Failed to turn into plotted turn,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to follow ROUTE map,Unplotted turn,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to follow ROUTE map,Incorrect Indicator,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to follow ROUTE map,Missed Left Turn,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to follow ROUTE map,Missed Right Turn,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to follow ROUTE map,Incorrect lane for continue ahead,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed to follow ROUTE map,Incorrect lane for upcoming turn,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed OVERTAKE,Failed to Complete Dynamic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed OVERTAKE,Failed to Complete Static,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed OVERTAKE,Failed to initiate Dynamic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed OVERTAKE,Failed to initiate Static,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed OVERTAKE,Incorrectly initiated Dynamic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Failed OVERTAKE,Incorrectly initiated Static,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+LATE Turn,Towards dynamic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+LATE Turn,Towards static,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+LATE Turn,Towards oncoming lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+LATE Turn,Towards ongoing lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+LATE Turn,Towards ongoing restricted bus lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+LATE Turn,Towards ongoing restricted cycle lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+EARLY Turn,Towards dynamic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+EARLY Turn,Towards static,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+EARLY Turn,Towards oncoming lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+EARLY Turn,Towards ongoing lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+EARLY Turn,Towards ongoing restricted bus lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+EARLY Turn,Towards ongoing restricted cycle lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards Left
+LANE POSITION",Towards Left,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards Right
+LANE POSITION",Towards Right,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards Restricted Lane
+LANE POSITION",Towards Restricted Lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Hard Shoulder
+LANE POSITION",Hard Shoulder,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards kerb
+LANE POSITION",Towards kerb,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards Dynamic
+LANE POSITION",Towards Dynamic,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards Static
+LANE POSITION",Towards Static,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards Oncoming vehicle
+LANE POSITION",Towards Oncoming vehicle,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Towards parked vehicle
+LANE POSITION",Towards parked vehicle,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Erratic steering
+LANE POSITION",Erratic steering,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Weaving in lane
+LANE POSITION",Weaving in lane,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Vulnerable Road User
+LANE POSITION",Vulnerable Road User,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "Failed to follow 
-LANE POSITION",Lane Position - for upcoming turn
-Lane Change,Unsafe Lane Change
-Lane Change,Double Lane Change
-Lane Change,Failed to complete lane change
+LANE POSITION",Lane Position - for upcoming turn,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Lane Change,Unsafe Lane Change,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Lane Change,Double Lane Change,https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Lane Change,Failed to complete lane change,https://www.youtube.com/watch?v=dQw4w9WgXcQ
 "ACCIDENTAL 
-AVSO Intervention",
-EMERGENCY SERVICE,
-DIVERSION,
-LENS OBSCURED,
-EMERGENCY STOP,
-CLOSE PROXIMITY,
-END of RUN,
+AVSO Intervention",,
+EMERGENCY SERVICE,,
+DIVERSION,,
+LENS OBSCURED,,
+EMERGENCY STOP,,
+CLOSE PROXIMITY,,
+END of RUN,,
 "UNCOMMANDED
- disengagement",
-UNCATEGORISED,`;
+ disengagement",,
+UNCATEGORISED,,`;
 
 export const parseAndGroupData = (): GroupedData => {
     const data: GroupedData = {};
@@ -153,6 +153,7 @@ export const parseAndGroupData = (): GroupedData => {
         const parts = line.split(',');
         let what = (parts[0] || '').trim();
         const why = (parts[1] || '').trim();
+        const videoLink = (parts[2] || '').trim();
 
         if (what === 'ACCIDENTAL AVSO Intervention') {
             what = 'Accidental';
@@ -166,7 +167,11 @@ export const parseAndGroupData = (): GroupedData => {
                 data[what] = [];
             }
             if (why) {
-                data[what].push(why);
+                const reason: Reason = { name: why };
+                if (videoLink) {
+                    reason.url = videoLink;
+                }
+                data[what].push(reason);
             }
         }
     });
