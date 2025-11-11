@@ -123,8 +123,6 @@ LANE POSITION",Lane Position - for upcoming turn
 Lane Change,Unsafe Lane Change
 Lane Change,Double Lane Change
 Lane Change,Failed to complete lane change
-Lane Change,Unnecessary Indicator
-Lane Change,Failed to Merge
 "ACCIDENTAL 
 AVSO Intervention",
 EMERGENCY SERVICE,
